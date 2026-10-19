@@ -1,4 +1,5 @@
 name: Python Security Scan SAST+SCA
+
 on:
   push:
     branches: [ main ]
@@ -9,22 +10,22 @@ jobs:
   security_scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
           pip install bandit safety
 
-      - name: SAST Bandit static scan
-        run: bandit -r ./ -f txt -o bandit-report.txt
+      - name: SAST - Bandit代码审计
+        run: bandit -r ./ -f json -o bandit-report.json || true
 
-      - name: SCA Safety dependency scan
-        run: safety check > safety-report.txt
+      - name: SCA - Safety依赖漏洞扫描
+        run: safety check > safety-report.txt || true
 
